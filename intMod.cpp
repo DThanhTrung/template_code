@@ -22,12 +22,12 @@ using namespace chrono;
 const int mod = 1e9+7;
 
 class intMod{
-    public :
+    protected :
         int x;
 
     public :
-        void print(const intMod &num) {
-            cout<<num.x;
+        void setVal(int val) {
+            this->x = val;
         }
 
         intMod operator + (const intMod &num) {
@@ -50,6 +50,22 @@ class intMod{
         friend intMod Power(const intMod &num, int exp);
 
         friend intMod operator / (int val,const intMod &div);
+
+        intMod Power2(int exp) {
+            if (exp == 1) {
+                return *this;
+            }
+            intMod result = Power2(exp/2);
+            result = result * result;
+            if (exp&1) {
+                result = result * (*this);
+            }
+            return result;
+        }
+
+        int getVal() {
+            return this->x;
+        }
 };
 
 intMod Power(const intMod &num, int exp) {
@@ -71,10 +87,14 @@ intMod operator / (int val, const intMod &div) {
 }
 
 void solve() {
-    intMod val,num2;
-    num2.x = 2;
-    val = 1 / num2;
-    cout<<val.x;
+    intMod *ptr = new intMod;
+    cout<<ptr<<' ';
+    ptr->setVal(2);
+    cout<<ptr<<' ';
+    *ptr = 1/(*ptr);
+    cout<<ptr<<'\n';
+    cout<<ptr->getVal();
+    delete ptr;
 }
 
 int main() {
